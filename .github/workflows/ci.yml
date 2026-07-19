@@ -1,0 +1,19 @@
+name: Continuous Integration
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths: [ 'goapp/**' ]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  CI-Go:
+    uses: aleogr/pipeline/.github/workflows/ci-go.yml@v1
+    with:
+        workdir: goapp
