@@ -12,3 +12,10 @@ func TestLinkedStack(t *testing.T) {
 	s.Push(20)
 	s.Push(30)
 }
+
+func TestStaticStack(t *testing.T) {
+	s := stack.StaticStack[int]{}
+	s.Push(10)
+	s.Push(20)
+	s.Push(30)
+}
