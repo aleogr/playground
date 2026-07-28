@@ -13,7 +13,7 @@ func (s *StaticStack[T]) Push(val T) {
 }
 
 func (s *StaticStack[T]) Pop() (T, error) {
-	if s.IsEmpty() {
+	if len(s.stack) == 0 {
 		return *new(T), ErrEmpty
 	}
 	n := len(s.stack) - 1
@@ -25,7 +25,7 @@ func (s *StaticStack[T]) Pop() (T, error) {
 }
 
 func (s *StaticStack[T]) Peek() (T, error) {
-	if s.IsEmpty() {
+	if len(s.stack) == 0 {
 		return *new(T), ErrEmpty
 	}
 	return s.stack[s.Size()-1], nil
@@ -43,8 +43,4 @@ func (s *StaticStack[T]) All() iter.Seq[T] {
 
 func (s *StaticStack[T]) Size() int {
 	return len(s.stack)
-}
-
-func (s *StaticStack[T]) IsEmpty() bool {
-	return s.Size() == 0
 }

@@ -21,7 +21,7 @@ func (s *LinkedStack[T]) Push(val T) {
 }
 
 func (s *LinkedStack[T]) Pop() (T, error) {
-	if s.IsEmpty() {
+	if s.top == nil {
 		return *new(T), ErrEmpty
 	}
 	val := s.top.val
@@ -31,7 +31,7 @@ func (s *LinkedStack[T]) Pop() (T, error) {
 }
 
 func (s *LinkedStack[T]) Peek() (T, error) {
-	if s.IsEmpty() {
+	if s.top == nil {
 		return *new(T), ErrEmpty
 	}
 	return s.top.val, nil
@@ -49,8 +49,4 @@ func (s *LinkedStack[T]) All() iter.Seq[T] {
 
 func (s *LinkedStack[T]) Size() int {
 	return s.size
-}
-
-func (s *LinkedStack[T]) IsEmpty() bool {
-	return s.top == nil
 }

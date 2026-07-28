@@ -13,5 +13,4 @@ type Stack[T any] interface {
 	Peek() (T, error)
 	All() iter.Seq[T]
 	Size() int
-	IsEmpty() bool
 }
