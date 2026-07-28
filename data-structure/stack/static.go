@@ -1,9 +1,7 @@
 package stack
 
 import (
-	"errors"
 	"iter"
-	"slices"
 )
 
 type StaticStack[T any] struct {
@@ -16,7 +14,7 @@ func (s *StaticStack[T]) Push(val T) {
 
 func (s *StaticStack[T]) Pop() (T, error) {
 	if s.IsEmpty() {
-		return *new(T), errors.New("Stack is empty")
+		return *new(T), ErrEmpty
 	}
 	n := len(s.stack) - 1
 	val := s.stack[n]
@@ -28,15 +26,19 @@ func (s *StaticStack[T]) Pop() (T, error) {
 
 func (s *StaticStack[T]) Peek() (T, error) {
 	if s.IsEmpty() {
-		return *new(T), errors.New("Stack is empty")
+		return *new(T), ErrEmpty
 	}
 	return s.stack[s.Size()-1], nil
 }
 
 func (s *StaticStack[T]) All() iter.Seq[T] {
-	stack := slices.Clone(s.stack)
-	slices.Reverse(stack)
-	return slices.Values(stack)
+	return func(yield func(T) bool) {
+		for i := len(s.stack) - 1; i >= 0; i-- {
+			if !yield(s.stack[i]) {
+				return
+			}
+		}
+	}
 }
 
 func (s *StaticStack[T]) Size() int {

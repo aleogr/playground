@@ -1,6 +1,11 @@
 package stack
 
-import "iter"
+import (
+	"errors"
+	"iter"
+)
+
+var ErrEmpty = errors.New("stack: empty stack")
 
 type Stack[T any] interface {
 	Push(val T)

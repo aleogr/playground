@@ -1,7 +1,6 @@
 package stack
 
 import (
-	"errors"
 	"iter"
 )
 
@@ -23,7 +22,7 @@ func (s *LinkedStack[T]) Push(val T) {
 
 func (s *LinkedStack[T]) Pop() (T, error) {
 	if s.IsEmpty() {
-		return *new(T), errors.New("Stack is empty")
+		return *new(T), ErrEmpty
 	}
 	val := s.top.val
 	s.top = s.top.next
@@ -33,7 +32,7 @@ func (s *LinkedStack[T]) Pop() (T, error) {
 
 func (s *LinkedStack[T]) Peek() (T, error) {
 	if s.IsEmpty() {
-		return *new(T), errors.New("Stack is empty")
+		return *new(T), ErrEmpty
 	}
 	return s.top.val, nil
 }
