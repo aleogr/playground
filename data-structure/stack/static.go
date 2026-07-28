@@ -18,9 +18,12 @@ func (s *StaticStack[T]) Pop() (T, error) {
 	if s.IsEmpty() {
 		return *new(T), errors.New("Stack is empty")
 	}
-	e := s.stack[s.Size()-1]
-	s.stack = s.stack[0 : s.Size()-1]
-	return e, nil
+	n := len(s.stack) - 1
+	val := s.stack[n]
+	var zero T
+	s.stack[n] = zero
+	s.stack = s.stack[:n]
+	return val, nil
 }
 
 func (s *StaticStack[T]) Peek() (T, error) {
@@ -31,7 +34,9 @@ func (s *StaticStack[T]) Peek() (T, error) {
 }
 
 func (s *StaticStack[T]) All() iter.Seq[T] {
-	return slices.Values(s.stack)
+	stack := slices.Clone(s.stack)
+	slices.Reverse(stack)
+	return slices.Values(stack)
 }
 
 func (s *StaticStack[T]) Size() int {

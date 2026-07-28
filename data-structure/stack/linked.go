@@ -39,7 +39,13 @@ func (s *LinkedStack[T]) Peek() (T, error) {
 }
 
 func (s *LinkedStack[T]) All() iter.Seq[T] {
-	return nil
+	return func(yield func(T) bool) {
+		for e := s.top; e != nil; e = e.next {
+			if !yield(e.val) {
+				return
+			}
+		}
+	}
 }
 
 func (s *LinkedStack[T]) Size() int {
